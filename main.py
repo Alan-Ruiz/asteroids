@@ -21,9 +21,30 @@ pygame.display.set_caption("Asteroids")
 
 
 #load images
-bg = pygame.image.load(bs.path.join('images', 'bg.jpg'))
+bg = pygame.image.load(os.path.join('images', 'bg.jpg'))
 debris = pygame.image.load(os.path.join('images', 'debris2_brown.png'))
+ship = pygame.image.load(os.path.join('images', 'ship.png'))
 
+#draw game function
+def draw(canvas):
+  global time
+  canvas.fill(BLACK)
+  canvas.blit(bg,(0,0))
+  canvas.blit(debris,(time*.3,0))
+  canvas.blit(debris,(time*.3-WIDTH, 0))
+  time = time +1
+  canvas.blit(ship, (WIDTH/2 -50, HEIGHT/2 -50))
+
+#handle input function
+def handle_input():
+  for event in pygame.event.get():
+    if event.type == QUIT:
+      pygame.quit()
+      sys.exit()
+      
+def update_screen():
+  pygame.display.update()
+  fps.tick(60)
 
 
 # asteroids game loop 
