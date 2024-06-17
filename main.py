@@ -24,6 +24,7 @@ bg = pygame.image.load(os.path.join('images', 'bg.jpg'))
 debris = pygame.image.load(os.path.join('images', 'debris2_brown.png'))
 ship = pygame.image.load(os.path.join('images', 'ship.png'))
 ship_thrusted = pygame.image.load(os.path.join('images', 'ship_thrusted.png'))
+asteroid = pygame.image.load(os.path.join('images', 'asteroid.png'))
 
 ship_x = WIDTH/2 - 50
 ship_y = HEIGHT/2 - 50
@@ -32,6 +33,13 @@ ship_is_rotating = False
 ship_is_forward = False
 ship_direction = 0
 ship_speed = 0
+asteroid_x = [] 
+asteroid_y = [] 
+no_asteroids = 5
+
+for i in range(0,no_asteroids):
+    asteroid_x.append(random.randint(0, WIDTH))
+    asteroid_y.append(random.randint(0, HEIGHT))
 
 def rot_center(image, angle):
     orig_rect = image.get_rect()
@@ -50,6 +58,9 @@ def draw(canvas):
     canvas.blit(debris,(time*.3,0))
     canvas.blit(debris,(time*.3-WIDTH, 0))
     time = time +1
+    
+    for i in range(0,no_asteroids):
+        canvas.blit(rot_center(asteroid, time), (asteroid_x[i], asteroid_y[i]))
     if ship_is_forward:
         canvas.blit(rot_center(ship_thrusted, ship_angle), (ship_x, ship_y))
     else:
