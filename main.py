@@ -20,7 +20,18 @@ window = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
 pygame.display.set_caption("Asteroids")
 
 #load sounds
-missile_sound = pygame.mixer
+# missile_sound = pygame.mixer.Sound(os.path.join('sounds, missile.ogg'))
+# missile_sound.set_volume(1)
+
+# thruster_sound = pygame.mixer.Sound(os.path.join('sounds, thrust.ogg'))
+# thruster_sound.set_volume(1)
+
+# explosion_sound = pygame.mixer.Sound(os.path.join('sounds, explosion.ogg'))
+# explosion_sound.set_volume(1)
+
+pygame.mixer.music.load(os.path.join('sounds', 'game.ogg'))
+pygame.mixer.music.set_volume(0.3)
+pygame.mixer.music.play()
 
 #load images
 bg = pygame.image.load(os.path.join('images', 'bg.jpg'))
