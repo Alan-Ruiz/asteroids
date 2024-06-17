@@ -39,10 +39,11 @@ asteroid_y = []
 asteroid_angle = []
 asteroid_speed = 2
 no_asteroids = 5
-bullet_x = 0
-bullet_y = 0
-bullet_angle = 0
+bullet_x = []
+bullet_y = []
+bullet_angle = []
 bullet_speed = 10
+no_bullets = 0
 
 for i in range(0,no_asteroids):
     asteroid_x.append(random.randint(0, WIDTH))
@@ -65,7 +66,6 @@ def draw(canvas):
     canvas.blit(bg,(0,0))
     canvas.blit(debris,(time*.3,0))
     canvas.blit(debris,(time*.3-WIDTH, 0))
-    canvas.blit(shot,(bullet_x, bullet_y))
     time = time +1
     
     for i in range(0,no_asteroids):
@@ -74,10 +74,15 @@ def draw(canvas):
         canvas.blit(rot_center(ship_thrusted, ship_angle), (ship_x, ship_y))
     else:
         canvas.blit(rot_center(ship, ship_angle), (ship_x, ship_y))
+        
 
+    for i in range(0, no_bullets):
+        canvas.blit(shot, (bullet_x[i], bullet_y[i]))
+        
+        
 #handle input function
 def handle_input():
-    global ship_angle, ship_is_rotating, ship_direction, ship_x, ship_y, ship_speed, ship_is_forward, bullet_x, bullet_y, bullet_angle
+    global ship_angle, ship_is_rotating, ship_direction, ship_x, ship_y, ship_speed, ship_is_forward, bullet_x, bullet_y, bullet_angle,no_bullets
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
@@ -93,10 +98,10 @@ def handle_input():
                 ship_is_forward = True
                 ship_speed = 10
             elif event.key == K_SPACE:
-                bullet_x = ship_x + 50
-                bullet_y = ship_y + 50
-                bullet_angle = ship_angle
-                
+                bullet_x.append(ship_x + 50)
+                bullet_y.append(ship_y + 50)
+                bullet_angle.append(ship_angle)
+                no_bullets = no_bullets + 1
                 
         elif event.type == KEYUP:
             if event.key == K_LEFT or event.key == K_RIGHT:
@@ -130,9 +135,11 @@ def isCollision(enemyX, enemyY, bulletX, bulletY):
         return False
 
 def game_logic():
-    global bullet_y, bullet_x, bullet_angle, bullet_speed
-    bullet_x = (bullet_x + math.cos(math.radians(bullet_angle)) * bullet_speed)
-    bullet_y = (bullet_y + -math.sin(math.radians(bullet_angle)) * bullet_speed)
+    global bullet_y, bullet_x, bullet_angle, bullet_speed, no_bullets
+    
+    for i in range(0, no_bullets):    
+        bullet_x[i] = (bullet_x[i] + math.cos(math.radians(bullet_angle[i])) * bullet_speed)
+        bullet_y[i] = (bullet_y[i] + -math.sin(math.radians(bullet_angle[i])) * bullet_speed)
     
     for i in range(0, no_asteroids):
         asteroid_x[i] = (asteroid_x[i] + math.cos(math.radians(asteroid_angle[i])) * asteroid_speed)
