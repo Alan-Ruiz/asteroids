@@ -29,6 +29,7 @@ ship_y = HEIGHT/2 - 50
 ship_angle = 0
 ship_is_rotating = False
 ship_direction = 0
+ship_speed = 10
 
 def rot_center(image, angle):
     orig_rect = image.get_rect()
@@ -51,7 +52,7 @@ def draw(canvas):
 
 #handle input function
 def handle_input():
-    global ship_angle, ship_is_rotating, ship_direction
+    global ship_angle, ship_is_rotating, ship_direction, ship_x, ship_y, ship_speed
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
@@ -60,9 +61,13 @@ def handle_input():
             if event.key == K_LEFT:
                 ship_is_rotating = True
                 ship_direction = 0
-            if event.key == K_RIGHT:
+            elif event.key == K_RIGHT:
                 ship_is_rotating = True
                 ship_direction = 1
+            elif event.key == K_UP:
+                ship_x = (ship_x + math.cos(math.radians(ship_angle)) * ship_speed)
+                ship_y = (ship_y + -math.sin(math.radians(ship_angle)) * ship_speed)
+                
         elif event.type == KEYUP:
             ship_is_rotating = False
             
