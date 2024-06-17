@@ -19,7 +19,6 @@ time = 0
 window = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
 pygame.display.set_caption("Asteroids")
 
-
 #load images
 bg = pygame.image.load(os.path.join('images', 'bg.jpg'))
 debris = pygame.image.load(os.path.join('images', 'debris2_brown.png'))
@@ -28,6 +27,8 @@ ship = pygame.image.load(os.path.join('images', 'ship.png'))
 ship_x = WIDTH/2 - 50
 ship_y = HEIGHT/2 - 50
 ship_angle = 0
+ship_is_rotating = False
+ship_direction = 0
 
 def rot_center(image, angle):
     orig_rect = image.get_rect()
@@ -50,16 +51,26 @@ def draw(canvas):
 
 #handle input function
 def handle_input():
-    global ship_angle
+    global ship_angle, ship_is_rotating, ship_direction
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
         elif event.type == KEYDOWN:
             if event.key == K_LEFT:
-                ship_angle = ship_angle + 10
+                ship_is_rotating = True
+                ship_direction = 0
             if event.key == K_RIGHT:
-                ship_angle = ship_angle - 10
+                ship_is_rotating = True
+                ship_direction = 1
+        elif event.type == KEYUP:
+            ship_is_rotating = False
+            
+    if ship_is_rotating:
+        if ship_direction ==  1:
+            ship_angle = ship_angle - 10
+        else:
+            ship_angle = ship_angle + 10
       
 def update_screen():
     pygame.display.update()
