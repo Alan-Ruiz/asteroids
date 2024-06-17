@@ -115,6 +115,18 @@ def game_logic():
     for i in range(0, no_asteroids):
         asteroid_x[i] = (asteroid_x[i] + math.cos(math.radians(asteroid_angle[i])) * asteroid_speed)
         asteroid_y[i] = (asteroid_y[i] + -math.sin(math.radians(asteroid_angle[i])) * asteroid_speed)
+
+        if asteroid_y[i] < 0:
+            asteroid_y[i] = HEIGHT
+            
+        if asteroid_y[i] > HEIGHT:
+            asteroid_y[i] = 0
+            
+        if asteroid_x[i] < 0:
+            asteroid_x[i] = WIDTH
+            
+        if asteroid_x[i] > WIDTH:
+            asteroid_x[i] = 0
     
 
 # asteroids game loop 
